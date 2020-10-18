@@ -10,6 +10,10 @@ Installation:
 
     npm install random-words
 
+Dutch fork installation:
+
+    npm install github:StudioTakken/random-words.git#dutch
+
 Examples:
 
     var randomWords = require('random-words');
@@ -48,3 +52,6 @@ Examples:
         return index === 0 ? word.slice(0,1).toUpperCase().concat(word.slice(1)) : word;
     }}))
     [ 'Until smoke', 'Year strength', 'Pay knew', 'Fallen must', 'Chief arrow' ]
+
+
+
