@@ -66,7 +66,9 @@ function words(options) {
       var langFile = options.language;
       // check if languagefile exists, if not, use english
       try {
-        wordList = require(`./${langFile}`);
+        if (langFile === "dutch-werkwoorden" ) {
+          wordList = require("./dutch-werkwoorden");
+        }
       } catch (e) {
         console.log(e);
       }
