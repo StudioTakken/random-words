@@ -32,7 +32,7 @@ Examples:
 
     console.log(randomWords({ exactly: 5, join: ' ' }))
     'army beautiful became if exactly'
-    
+
     console.log(randomWords({ exactly: 5, join: '' }))
         'armybeautifulbecameifexactly'
 
@@ -52,6 +52,3 @@ Examples:
         return index === 0 ? word.slice(0,1).toUpperCase().concat(word.slice(1)) : word;
     }}))
     [ 'Until smoke', 'Year strength', 'Pay knew', 'Fallen must', 'Chief arrow' ]
-
-
-

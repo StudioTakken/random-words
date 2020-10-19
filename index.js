@@ -1,8 +1,6 @@
-var wordList = require('./english');
-
+var wordList = require("./english"); // english as the default language file
 
 function words(options) {
-
   function word() {
     if (options && options.maxLength > 1) {
       return generateWordWithMaxLength();
@@ -14,12 +12,11 @@ function words(options) {
   function generateWordWithMaxLength() {
     var rightSize = false;
     var wordUsed;
-    while (!rightSize) {  
+    while (!rightSize) {
       wordUsed = generateRandomWord();
-      if(wordUsed.length <= options.maxLength) {
+      if (wordUsed.length <= options.maxLength) {
         rightSize = true;
       }
-
     }
     return wordUsed;
   }
@@ -33,12 +30,12 @@ function words(options) {
   }
 
   // No arguments = generate one word
-  if (typeof(options) === 'undefined') {
+  if (typeof options === "undefined") {
     return word();
   }
 
   // Just a number = return that many words
-  if (typeof(options) === 'number') {
+  if (typeof options === "number") {
     options = { exactly: options };
   }
 
@@ -47,49 +44,60 @@ function words(options) {
     options.min = options.exactly;
     options.max = options.exactly;
   }
-  
+
   // not a number = one word par string
-  if (typeof(options.wordsPerString) !== 'number') {
+  if (typeof options.wordsPerString !== "number") {
     options.wordsPerString = 1;
   }
 
   //not a function = returns the raw word
-  if (typeof(options.formatter) !== 'function') {
+  if (typeof options.formatter !== "function") {
     options.formatter = (word) => word;
   }
 
   //not a string = separator is a space
-  if (typeof(options.separator) !== 'string') {
-    options.separator = ' ';
+  if (typeof options.separator !== "string") {
+    options.separator = " ";
+  }
+
+  //not a language = language is english
+  if (options.language) {
+    if (typeof options.language === "string") {
+      var langFile = options.language;
+      // check if languagefile exists, if not, use english
+      try {
+        wordList = require(`./${langFile}`);
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
   var total = options.min + randInt(options.max + 1 - options.min);
   var results = [];
-  var token = '';
+  var token = "";
   var relativeIndex = 0;
 
-  for (var i = 0; (i < total * options.wordsPerString); i++) {
+  for (var i = 0; i < total * options.wordsPerString; i++) {
     if (relativeIndex === options.wordsPerString - 1) {
       token += options.formatter(word(), relativeIndex);
-    }
-    else {
+    } else {
       token += options.formatter(word(), relativeIndex) + options.separator;
     }
     relativeIndex++;
     if ((i + 1) % options.wordsPerString === 0) {
       results.push(token);
-      token = ''; 
+      token = "";
       relativeIndex = 0;
     }
-   
   }
-  if (typeof options.join === 'string') {
+  if (typeof options.join === "string") {
     results = results.join(options.join);
   }
 
   return results;
 }
 
-module.exports = words;
+export default words;
 // Export the word list as it is often useful
 words.wordList = wordList;
